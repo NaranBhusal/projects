@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday Wish</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            background: linear-gradient(135deg, #ff80b3, #cc99ff);
+            transition: background 1s ease;
+            overflow-x: hidden;
+        }
+        .container, .second-display, .third-display, .no-display, .final-display {
+            text-align: center;
+            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            max-width: 90vw;
+            width: 600px;
+            transition: opacity 0.5s, transform 0.3s, box-shadow 0.3s;
+        }
+        .container:hover, .second-display:hover, .third-display:hover, .no-display:hover, .final-display:hover {
+            box-shadow: 0 0 20px rgba(255, 105, 180, 0.7);
+            transform: translateY(-5px);
+        }
+        .second-display, .third-display, .no-display, .final-display {
+            display: none;
+            opacity: 0;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 80vh;
+        }
+        h1 {
+            color: #e60050;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            animation: fadeIn 1s ease-in;
+            transition: color 0.3s, transform 0.3s;
+        }
+        h1:hover, h1:active {
+            color: #ff1493;
+            transform: scale(1.05);
+            text-decoration: underline;
+        }
+        p {
+            color: #333;
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            animation: slideIn 1s ease-in;
+        }
+        .cake-container {
+            margin: 20px 0;
+            position: relative;
+            width: 200px;
+            height: 150px;
+            cursor: pointer;
+            perspective: 1000px;
+        }
+        .cake {
+            width: 100%;
+            height: 100px;
+            background: linear-gradient(45deg, #ff69b4, #ffe4e1);
+            border-radius: 10px 10px 0 0;
+            position: relative;
+            transition: transform 0.5s, opacity 0.5s;
+            display: flex;
+            justify-content: space-between;
+        }
+        .cake:hover, .cake:active {
+            transform: scale(1.1) rotate(3deg);
+            box-shadow: 0 0 20px rgba(255, 105, 180, 0.7);
+        }
+        .cake:hover:after, .cake:active:after {
+            content: '✨';
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            font-size: 1.5rem;
+            animation: sparkle 0.5s infinite;
+        }
+        .cake.cutting .cake-left {
+            transform: rotateY(45deg);
+            clip-path: polygon(0 0, 50% 0, 50% 100%, 0 100%);
+            transform-origin: right;
+        }
+        .cake.cutting .cake-right {
+            transform: rotateY(-45deg);
+            clip-path: polygon(50% 0, 100% 0, 100% 100%, 50% 100%);
+            transform-origin: left;
+        }
+        .cake-left, .cake-right {
+            width: 50%;
+            height: 100%;
+            background: inherit;
+            position: absolute;
+            transition: transform 0.5s, clip-path 0.5s;
+        }
+        .cake-left {
+            left: 0;
+        }
+        .cake-right {
+            right: 0;
+        }
+        .candle {
+            width: 10px;
+            height: 30px;
+            background: #fff;
+            position: absolute;
+            top: -30px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-radius: 2px;
+            z-index: 1;
+        }
+        .flame {
+            width: 6px;
+            height: 10px;
+            background: #ff4500;
+            position: absolute;
+            top: -40px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-radius: 50%;
+            animation: flicker 0.4s infinite alternate;
+        }
+        .heart {
+            position: relative;
+            width: 50px;
+            height: 50px;
+            background: #ff1493;
+            transform: rotate(-45deg);
+            margin: 20px auto;
+            animation: beat 0.6s infinite alternate;
+        }
+        .heart:before, .heart:after {
+            content: '';
+            width: 50px;
+            height: 50px;
+            background: #ff1493;
+            border-radius: 50%;
+            position: absolute;
+        }
+        .heart:before {
+            top: -25px;
+            left: 0;
+        }
+        .heart:after {
+            left: 25px;
+            top: 0;
+        }
+        .question {
+            margin-top: 20px;
+            font-size: 1.3rem;
+            color: #e60050;
+            animation: fadeIn 1s ease-in;
+        }
+        .buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 10px;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 1rem;
+            cursor: pointer;
+            background: linear-gradient(45deg, #ff69b4, #ff4040);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            transition: transform 0.2s, box-shadow 0.3s, background 0.3s;
+            position: relative;
+        }
+        button:hover, button:active {
+            background: linear-gradient(45deg, #ff1493, #e60050);
+            transform: scale(1.1);
+            box-shadow: 0 0 20px rgba(255, 105, 180, 0.7);
+            animation: pulse 0.5s infinite alternate;
+        }
+        button:hover:after, button:active:after {
+            content: '✨';
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            font-size: 1.5rem;
+            animation: sparkle 0.5s infinite;
+        }
+        .music-toggle {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            padding: 8px 16px;
+            font-size: 0.9rem;
+            background: linear-gradient(45deg, #ff69b4, #ff4040);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s, box-shadow 0.3s;
+        }
+        .music-toggle:hover, .music-toggle:active {
+            background: linear-gradient(45deg, #ff1493, #e60050);
+            box-shadow: 0 0 15px rgba(255, 105, 180, 0.7);
+        }
+        @keyframes flicker {
+            0% { transform: translateX(-50%) scale(1); opacity: 1; }
+            100% { transform: translateX(-50%) scale(1.2); opacity: 0.7; }
+        }
+        @keyframes beat {
+            0% { transform: rotate(-45deg) scale(1); }
+            100% { transform: rotate(-45deg) scale(1.2); }
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(-20px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        @keyframes pulse {
+            from { transform: scale(1.1); }
+            to { transform: scale(1.15); }
+        }
+        @keyframes sparkle {
+            0% { opacity: 1; transform: scale(1); }
+            100% { opacity: 0.5; transform: scale(1.2); }
+        }
+        .quote, .flirty-line {
+            font-style: italic;
+            color: #e60050;
+            font-size: 1.4rem;
+            margin-top: 20px;
+            animation: fadeIn 1s ease-in;
+            transition: color 0.3s, transform 0.3s;
+        }
+        .quote:hover, .flirty-line:hover, .quote:active, .flirty-line:active {
+            color: #ff1493;
+            transform: scale(1.05);
+            text-decoration: underline;
+        }
+        .prompt {
+            font-size: 1rem;
+            color: #333;
+            margin-top: 10px;
+            animation: fadeIn 1s ease-in;
+            transition: opacity 0.5s;
+        }
+        @media (max-width: 600px) {
+            h1 { font-size: 2rem; }
+            p, .question, .quote, .flirty-line { font-size: 1rem; }
+            .cake-container { width: 150px; height: 100px; }
+            .cake { height: 70px; }
+            .candle { height: 20px; }
+            .flame { top: -25px; }
+            .heart { width: 40px; height: 40px; }
+            .heart:before, .heart:after { width: 40px; height: 40px; }
+            .heart:before { top: -20px; }
+            .heart:after { left: 20px; }
+            .buttons { flex-direction: column; gap: 10px; }
+        }
+    </style>
+</head>
+<body>
+    <audio id="birthdayMusic" loop>
+        <source src="https://cdn.pixabay.com/audio/2023/03/31/audio_6b2cc93620.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+    <button class="music-toggle" onclick="toggleMusic()">Play Music</button>
+    <div class="container" id="firstDisplay">
+        <h1>Happy Birthday!</h1>
+        <p>Wishing you a day filled with love, laughter, and all your favorite things!</p>
+        <div class="cake-container" onclick="cutCake()" ontouchstart="cutCake()">
+            <div class="cake">
+                <div class="cake-left"></div>
+                <div class="cake-right"></div>
+                <div class="candle"><div class="flame"></div></div>
+            </div>
+            <div class="prompt">Tap the cake to cut it!</div>
+        </div>
+        <div class="flirty-line">Your smile lights up my world brighter than any birthday candle!</div>
+        <div class="question">Will you let me treat you to a birthday coffee? ☕</div>
+        <div class="buttons">
+            <button onclick="respond('yes', 'second')" ontouchstart="respond('yes', 'second')">Yes</button>
+            <button onclick="respond('no')" ontouchstart="respond('no')">No</button>
+        </div>
+    </div>
+    <div class="second-display" id="secondDisplay">
+        <h1>You're Incredible!</h1>
+        <div class="cake-container">
+            <div class="cake">
+                <div class="cake-left"></div>
+                <div class="cake-right"></div>
+                <div class="candle"><div class="flame"></div></div>
+            </div>
+        </div>
+        <div class="quote">Your sparkle outshines every candle, and my heart beats just for you!</div>
+        <div class="flirty-line">A dessert with you would be sweeter than any cake!</div>
+        <div class="question">How about a sweet birthday dessert together? 🍰</div>
+        <div class="buttons">
+            <button onclick="respond('yes', 'third')" ontouchstart="respond('yes', 'third')">Yes</button>
+            <button onclick="respond('no')" ontouchstart="respond('no')">No</button>
+        </div>
+    </div>
+    <div class="third-display" id="thirdDisplay">
+        <h1>You're One of a Kind!</h1>
+        <div class="heart"></div>
+        <div class="flirty-line">Every moment with you feels like a celebration!</div>
+        <div class="question">Can I make your next birthday even more special? 🎉</div>
+        <div class="buttons">
+            <button onclick="respond('yes', 'final')" ontouchstart="respond('yes', 'final')">Yes</button>
+            <button onclick="respond('no')" ontouchstart="respond('no')">No</button>
+        </div>
+    </div>
+    <div class="no-display" id="noDisplay">
+        <h1>Still Wishing You the Best!</h1>
+        <div class="heart"></div>
+        <div class="quote">I'm not giving up—your birthday deserves a big smile!</div>
+        <div class="question">How about giving that coffee date a chance? ☕</div>
+        <div class="buttons">
+            <button onclick="respond('yes', 'third')" ontouchstart="respond('yes', 'third')">Yes</button>
+            <button onclick="respond('no')" ontouchstart="respond('no')">No</button>
+        </div>
+    </div>
+    <div class="final-display" id="finalDisplay">
+        <h1>Happy Birthday!</h1>
+        <div class="heart"></div>
+        <div class="quote">Here's to a day as incredible as you are—Happy Birthday!</div>
+        <div class="flirty-line">Can't wait to celebrate you today and always!</div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <script>
+        const audio = document.getElementById('birthdayMusic');
+        let hasInteracted = false;
+
+        function toggleMusic() {
+            if (audio.paused) {
+                audio.play().then(() => {
+                    document.querySelector('.music-toggle').textContent = 'Pause Music';
+                }).catch(() => {
+                    alert('Unable to play music. Try again or check your browser settings.');
+                });
+            } else {
+                audio.pause();
+                document.querySelector('.music-toggle').textContent = 'Play Music';
+            }
+        }
+
+        function launchConfetti() {
+            confetti({
+                particleCount: 200,
+                spread: 80,
+                origin: { y: 0.6 },
+                colors: ['#ff69b4', '#ff1493', '#cc99ff']
+            });
+        }
+
+        function cutCake() {
+            if (!hasInteracted) {
+                audio.play().then(() => {
+                    document.querySelector('.music-toggle').textContent = 'Pause Music';
+                }).catch(() => {
+                    document.querySelector('.music-toggle').textContent = 'Play Music';
+                });
+                hasInteracted = true;
+            }
+            const cake = document.querySelector('.cake');
+            const prompt = document.querySelector('.prompt');
+            cake.classList.add('cutting');
+            cake.style.opacity = '0';
+            prompt.style.opacity = '0';
+            setTimeout(() => {
+                cake.style.display = 'none';
+                prompt.style.display = 'none';
+                launchConfetti();
+            }, 500);
+        }
+
+        function respond(answer, nextDisplay) {
+            if (!hasInteracted) {
+                audio.play().then(() => {
+                    document.querySelector('.music-toggle').textContent = 'Pause Music';
+                }).catch(() => {
+                    document.querySelector('.music-toggle').textContent = 'Play Music';
+                });
+                hasInteracted = true;
+            }
+            const displays = {
+                'first': document.getElementById('firstDisplay'),
+                'second': document.getElementById('secondDisplay'),
+                'third': document.getElementById('thirdDisplay'),
+                'no': document.getElementById('noDisplay'),
+                'final': document.getElementById('finalDisplay')
+            };
+            const currentDisplay = Object.values(displays).find(d => d.style.display !== 'none' && d.style.opacity === '1') || displays.first;
+            if (answer === 'yes') {
+                currentDisplay.style.opacity = '0';
+                setTimeout(() => {
+                    currentDisplay.style.display = 'none';
+                    displays[nextDisplay].style.display = 'flex';
+                    displays[nextDisplay].style.opacity = '1';
+                    launchConfetti();
+                    document.body.style.background = nextDisplay === 'second' ? 
+                        'linear-gradient(135deg, #cc99ff, #ff80b3)' : 
+                        nextDisplay === 'third' ? 
+                        'linear-gradient(135deg, #ff4040, #ff69b4)' : 
+                        'linear-gradient(135deg, #ff1493, #cc99ff)';
+                }, 500);
+                if (nextDisplay === 'second') {
+                    alert('Yay! You just made my day brighter than a thousand candles! Let’s plan that coffee date! 😊');
+                } else if (nextDisplay === 'third') {
+                    alert('Awesome! That dessert date is going to be the sweetest! 🍰');
+                } else if (nextDisplay === 'final') {
+                    alert('You’re amazing! Let’s make every birthday unforgettable! 🎉');
+                }
+            } else {
+                currentDisplay.style.opacity = '0';
+                setTimeout(() => {
+                    currentDisplay.style.display = 'none';
+                    displays.no.style.display = 'flex';
+                    displays.no.style.opacity = '1';
+                    launchConfetti();
+                    document.body.style.background = 'linear-gradient(135deg, #ff69b4, #cc99ff)';
+                }, 500);
+                alert('Aww, maybe next time? Wishing you an amazing birthday anyway! 🎂');
+            }
+        }
+    </script>
+</body>
+</html>
