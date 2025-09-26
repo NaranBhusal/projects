@@ -31,7 +31,6 @@ This project leverages a suite of powerful Azure services:
 ## ✨ Final Dashboard
 The final result is an interactive dashboard that provides key insights into sales performance.
 
-*Include a high-quality screenshot of your Power BI dashboard here.*
 ![Power BI Sales Dashboard]
 ![image alt](https://github.com/NaranBhusal/projects/blob/fe86309ecd4cbfa1f82c30ace01809e31f0800e9/dashboardprojectphoto.jpg)
 
