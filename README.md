@@ -1,6 +1,6 @@
 # End-to-End Sales Analytics Pipeline in Azure
 
-![Project Banner Image](link_to_your_banner_image.png)  ## 📖 Project Overview
+  ![image alt](https://github.com/NaranBhusal/projects/blob/b15c30070c4ba976f58879481d2833fcaccb3156/Block%20Diagram.jpg) 📖 Project Overview
 This project demonstrates a complete, end-to-end data engineering pipeline built using key services from the Microsoft Azure ecosystem. The goal was to ingest raw sales data, process it into a clean and structured format, store it in a high-performance data warehouse, and build an interactive dashboard for business intelligence and sales analysis. This project showcases skills in data ingestion, transformation, automation, and visualization.
 
 ---
