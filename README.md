@@ -33,7 +33,7 @@ The final result is an interactive dashboard that provides key insights into sal
 
 *Include a high-quality screenshot of your Power BI dashboard here.*
 ![Power BI Sales Dashboard]
-![image alt]()
+![image alt](https://github.com/NaranBhusal/projects/blob/fe86309ecd4cbfa1f82c30ace01809e31f0800e9/dashboardprojectphoto.jpg)
 
 ## 🚀 How to Improve
 This project serves as a strong foundation. For a production environment, I would consider the following improvements:
